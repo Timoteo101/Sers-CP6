@@ -1,6 +1,3 @@
-# ============================================================
-# SISTEMA DE DIMENSIONAMENTO ENERGÉTICO
-# ============================================================
 from services.autenticacao import (
     cadastrar_usuario,
     autenticar_usuario,
@@ -29,10 +26,6 @@ from services.relatorios import (
     exibir_resumo_final,
 )
 
-
-# ============================================================
-# FUNÇÕES AUXILIARES
-# ============================================================
 def pausar():
     input("\nPressione ENTER para continuar...")
 
@@ -78,9 +71,6 @@ def selecionar_imovel(usuario):
         print("Imóvel não encontrado.")
 
 
-# ============================================================
-# MENU DE CONSUMO
-# ============================================================
 def menu_consumo(usuario):
     imovel = selecionar_imovel(usuario)
     if imovel is None:
@@ -160,11 +150,6 @@ def menu_consumo(usuario):
         if opcao != "0":
             pausar()
 
-
-# ============================================================
-# DIMENSIONAMENTO COMPLETO
-# PB01 ATÉ PB12
-# ============================================================
 def executar_dimensionamento(usuario):
     imovel = selecionar_imovel(usuario)
     if imovel is None:
@@ -173,9 +158,7 @@ def executar_dimensionamento(usuario):
     print("=" * 60)
     print("       DIMENSIONAMENTO FOTOVOLTAICO")
     print("=" * 60)
-    # ========================================================
-    # PB01 - CONSUMO
-    # ========================================================
+
     consumo_referencia = calcular_consumo_medio(
         usuario,
         imovel.id_imovel
@@ -191,9 +174,7 @@ def executar_dimensionamento(usuario):
         f"\nPB01 - Consumo de referência: "
         f"{consumo_referencia:.2f} kWh/mês"
     )
-    # ========================================================
-    # PB02 - HSP
-    # ========================================================
+
     try:
         hsp_resultado = obter_hsp_imovel(
             imovel
@@ -218,9 +199,7 @@ def executar_dimensionamento(usuario):
     print(
         f"Origem: {origem_hsp}"
     )
-    # ========================================================
-    # PB03 - PERCENTUAL DE ATENDIMENTO
-    # ========================================================
+
     try:
         percentual = (
             solicitar_percentual_atendimento()
@@ -234,9 +213,7 @@ def executar_dimensionamento(usuario):
     print(
         f"PB03 - Atendimento: {percentual:.2f}%"
     )
-    # ========================================================
-    # PB04 - POTÊNCIA FV
-    # ========================================================
+
     try:
         resultado = criar_resultado_base(
             consumos=imovel.obter_consumos(),
@@ -254,9 +231,7 @@ def executar_dimensionamento(usuario):
         f"PB04 - Potência FV necessária: "
         f"{resultado.potencia_fv:.3f} kWp"
     )
-    # ========================================================
-    # PB05 - PAINEL
-    # ========================================================
+
     try:
         resultado = executar_pb05(
             resultado
@@ -306,9 +281,7 @@ def executar_dimensionamento(usuario):
         resultado.potencia_instalada,
         "kWp"
     )
-    # ========================================================
-    # BATERIA
-    # ========================================================
+
     print("\nARMAZENAMENTO")
     print("-" * 60)
     resposta = input(
@@ -388,9 +361,7 @@ def executar_dimensionamento(usuario):
         print(
             "\nSistema sem bateria."
         )
-    # ========================================================
-    # PB06 - INVERSOR
-    # ========================================================
+
     try:
         resultado = executar_pb06(
             resultado
@@ -439,9 +410,7 @@ def executar_dimensionamento(usuario):
         ),
         "kW"
     )
-    # ========================================================
-    # PB10 - COMPATIBILIDADE
-    # ========================================================
+
     try:
         resultado = executar_pb10(
             resultado
@@ -472,9 +441,7 @@ def executar_dimensionamento(usuario):
                 "-",
                 problema
             )
-    # ========================================================
-    # GERAÇÃO ESTIMADA
-    # ========================================================
+
     resultado.geracao_estimada = (
         calcular_geracao_estimada(
             potencia_instalada=(
@@ -485,9 +452,7 @@ def executar_dimensionamento(usuario):
             eficiencia=resultado.eficiencia_sistema,
         )
     )
-    # ========================================================
-    # CUSTOS
-    # ========================================================
+
     try:
         resultado = calcular_custos(
             resultado
@@ -498,9 +463,7 @@ def executar_dimensionamento(usuario):
         )
         pausar()
         return
-    # ========================================================
-    # PB12 - RELATÓRIO FINAL
-    # ========================================================
+
     try:
         relatorio = gerar_resumo_final(
             resultado
@@ -511,18 +474,12 @@ def executar_dimensionamento(usuario):
         )
         pausar()
         return
-    # ========================================================
-    # MOSTRA O RELATÓRIO PARA O USUÁRIO
-    # ========================================================
+
     exibir_resumo_final(
         relatorio
     )
     pausar()
 
-
-# ============================================================
-# MENU PRINCIPAL DO USUÁRIO
-# ============================================================
 def menu_usuario(usuario):
     while True:
         print("\n============================================")
@@ -561,10 +518,6 @@ def menu_usuario(usuario):
                 "\nOpção inválida."
             )
 
-
-# ============================================================
-# MENU INICIAL
-# ============================================================
 def menu_inicial():
     while True:
         print("\n============================================")
@@ -595,9 +548,5 @@ def menu_inicial():
                 "\nOpção inválida."
             )
 
-
-# ============================================================
-# EXECUÇÃO
-# ============================================================
 if __name__ == "__main__":
     menu_inicial()

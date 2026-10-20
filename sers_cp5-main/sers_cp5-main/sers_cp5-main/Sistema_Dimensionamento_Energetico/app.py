@@ -1,6 +1,5 @@
 import streamlit as st
 from datetime import date
-
 from models.usuario import Usuario
 from models.imovel import Imovel
 
@@ -73,12 +72,6 @@ def salvar_equipamentos_imovel(usuario, id_imovel, equipamentos):
     return True, f"Equipamentos salvos. Consumo mensal estimado: {consumo:.2f} kWh."
 
 
-
-
-# =========================================================
-# AUTENTICAÇÃO
-# =========================================================
-
 def cadastrar(nome, email, senha):
     dados = carregar_dados()
 
@@ -122,11 +115,6 @@ def autenticar(email, senha):
             return Usuario.de_dict(item)
 
     return None
-
-
-# =========================================================
-# IMÓVEIS
-# =========================================================
 
 def criar_imovel(
     usuario,
@@ -228,23 +216,12 @@ def registrar_consumo(
 
     return False, "Imóvel não encontrado."
 
-
-# =========================================================
-# DIMENSIONAMENTO FOTOVOLTAICO
-# =========================================================
-
 def executar_dimensionamento(
     imovel,
     percentual,
     possui_bateria,
     autonomia,
 ):
-    """
-    Executa os cálculos usando o serviço de dimensionamento.
-
-    A seleção de equipamentos utiliza as funções existentes
-    no projeto, quando disponíveis.
-    """
 
     consumos = imovel.obter_consumos()
 
@@ -649,12 +626,6 @@ def exibir_dimensionamento(imoveis):
                 )
 
 
-
-
-# =========================================================
-# ESTADO DA SESSÃO
-# =========================================================
-
 if "usuario" not in st.session_state:
     st.session_state.usuario = None
 
@@ -666,10 +637,6 @@ st.caption(
 
 usuario = st.session_state.usuario
 
-
-# =========================================================
-# LOGIN E CADASTRO
-# =========================================================
 
 if usuario is None:
     entrar, cadastrar_tab = st.tabs(
@@ -727,10 +694,6 @@ if usuario is None:
                 st.error(mensagem)
 
 
-# =========================================================
-# APLICAÇÃO PRINCIPAL
-# =========================================================
-
 else:
     with st.sidebar:
         st.subheader("Menu")
@@ -763,10 +726,6 @@ else:
             st.rerun()
 
     imoveis = listar_imoveis(usuario)
-
-    # -----------------------------------------------------
-    # VISÃO GERAL
-    # -----------------------------------------------------
 
     if pagina == "Visão geral":
         st.subheader("Visão geral")
@@ -805,10 +764,6 @@ else:
                         f"{imovel.cidade}/{imovel.estado} · "
                         f"{imovel.tipo}"
                     )
-
-    # -----------------------------------------------------
-    # MEUS IMÓVEIS
-    # -----------------------------------------------------
 
     elif pagina == "Meus imóveis":
         st.subheader("Meus imóveis")
@@ -994,10 +949,6 @@ else:
         else:
             st.info("Você ainda não cadastrou imóveis.")
 
-    # -----------------------------------------------------
-    # REGISTRAR CONSUMO EM IMÓVEL JÁ CADASTRADO
-    # -----------------------------------------------------
-
     elif pagina == "Registrar consumo":
         st.subheader("Registrar consumo")
         st.write(
@@ -1050,10 +1001,6 @@ else:
                 else:
                     st.error(mensagem)
 
-    # -----------------------------------------------------
-    # HISTÓRICO DE CONSUMO (gerado pelos equipamentos)
-    # -----------------------------------------------------
-
     elif pagina == "Histórico de consumo":
         st.subheader("Histórico de consumo")
         st.caption(
@@ -1101,9 +1048,6 @@ else:
                 "seus equipamentos para gerar a primeira estimativa."
             )
 
-    # -----------------------------------------------------
-    # DIMENSIONAMENTO
-    # -----------------------------------------------------
 
     elif pagina == "Dimensionamento":
         exibir_dimensionamento(imoveis)
