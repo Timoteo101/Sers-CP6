@@ -1,7 +1,3 @@
-# ============================================================
-# SERVIÇO DE AUTENTICAÇÃO
-# ============================================================
-
 from models.usuario import Usuario
 from utils.arquivos import carregar_json, salvar_json
 from utils.constantes import ARQUIVO_DADOS
@@ -9,9 +5,7 @@ from utils.validacoes import ler_texto_obrigatorio
 
 
 def carregar_dados():
-    """
-    Carrega os dados gerais do sistema.
-    """
+
 
     return carregar_json(
         ARQUIVO_DADOS,
@@ -20,22 +14,14 @@ def carregar_dados():
         }
     )
 
-
 def salvar_dados(dados):
-    """
-    Salva os dados gerais do sistema.
-    """
 
     salvar_json(
         ARQUIVO_DADOS,
         dados
     )
 
-
 def cadastrar_usuario():
-    """
-    Realiza o cadastro de um novo usuário.
-    """
 
     dados = carregar_dados()
 
@@ -85,11 +71,7 @@ def cadastrar_usuario():
 
     return novo_usuario
 
-
 def autenticar_usuario():
-    """
-    Solicita e-mail e senha e autentica o usuário.
-    """
 
     dados = carregar_dados()
 
@@ -131,11 +113,7 @@ def autenticar_usuario():
 
     return None
 
-
 def listar_usuarios():
-    """
-    Retorna todos os usuários cadastrados.
-    """
 
     dados = carregar_dados()
 

@@ -1,14 +1,4 @@
-# ============================================================
-# SERVIÇO DE COMPATIBILIDADE
-# ============================================================
-
-
 def converter_float(valor):
-    """
-    Converte um valor para float.
-
-    Aceita números utilizando vírgula ou ponto decimal.
-    """
 
     try:
         return float(
@@ -18,21 +8,11 @@ def converter_float(valor):
     except (TypeError, ValueError):
         return None
 
-
-# ============================================================
-# VALIDAÇÃO DOS EQUIPAMENTOS
-# ============================================================
-
 def validar_dados_compatibilidade(
     painel,
     inversor,
 ):
-    """
-    Verifica se painel e inversor possuem os dados
-    necessários para uma análise de compatibilidade.
 
-    Retorna uma lista de problemas encontrados.
-    """
 
     problemas = []
 
@@ -94,29 +74,12 @@ def validar_dados_compatibilidade(
 
     return problemas
 
-
-# ============================================================
-# PB10 - COMPATIBILIDADE
-# ============================================================
-
 def verificar_compatibilidade(
     painel,
     inversor,
     quantidade_paineis=1,
     bateria=None,
 ):
-    """
-    Verifica a compatibilidade técnica entre:
-
-    - painéis e inversor;
-    - bateria e inversor, quando houver bateria.
-
-    Critérios:
-        1. Tensão da string dentro da faixa do inversor.
-        2. Corrente do painel dentro do limite do inversor.
-        3. Compatibilidade do inversor com bateria,
-           quando houver bateria.
-    """
 
     problemas = validar_dados_compatibilidade(
         painel,
@@ -160,9 +123,9 @@ def verificar_compatibilidade(
         inversor["corrente_max_a"]
     )
 
-    # ========================================================
+
     # TENSÃO DA STRING
-    # ========================================================
+
 
     tensao_string = (
         tensao_painel
@@ -175,9 +138,9 @@ def verificar_compatibilidade(
         <= tensao_max_inversor
     )
 
-    # ========================================================
+
     # CORRENTE
-    # ========================================================
+
 
     corrente_compativel = (
         corrente_painel
@@ -198,9 +161,9 @@ def verificar_compatibilidade(
             "o limite do inversor."
         )
 
-    # ========================================================
+
     # BATERIA
-    # ========================================================
+
 
     bateria_compativel = True
 
@@ -234,9 +197,9 @@ def verificar_compatibilidade(
                 "não é compatível com bateria."
             )
 
-    # ========================================================
+
     # RESULTADO
-    # ========================================================
+
 
     return {
         "compativel": (

@@ -1,9 +1,3 @@
-# ============================================================
-# SERVIÇO DE DIMENSIONAMENTO ENERGÉTICO
-# ============================================================
-
-
-
 from models.resultado import ResultadoDimensionamento
 from utils.constantes import (
     DIAS_MES_REFERENCIA,
@@ -26,25 +20,21 @@ from services.compatibilidade import (
 
 from services.baterias import dimensionar_armazenamento, dimensionar_baterias
 
-# ============================================================
-# PB01 - CONSUMO DE REFERÊNCIA
-# ============================================================
-
 def calcular_consumo_referencia(consumos):
-    """
-    Calcula o consumo médio mensal utilizado como referência
-    para o dimensionamento.
 
-    PB01:
-    O consumo médio do imóvel será utilizado como consumo
-    de referência do sistema.
+    # Calcula o consumo médio mensal utilizado como referência
+    # para o dimensionamento.
+    #
+    # PB01:
+    # O consumo médio do imóvel será utilizado como consumo
+    # de referência do sistema.
+    #
+    # Parâmetros:
+    #     consumos: lista de dicionários contendo consumo_kwh.
+    #
+    # Retorno:
+    #     float com o consumo médio em kWh/mês.
 
-    Parâmetros:
-        consumos: lista de dicionários contendo consumo_kwh.
-
-    Retorno:
-        float com o consumo médio em kWh/mês.
-    """
 
     if not consumos:
         return 0.0
@@ -72,17 +62,7 @@ def calcular_consumo_referencia(consumos):
 
     return sum(valores) / len(valores)
 
-
-# ============================================================
-# PB03 - PERCENTUAL DE ATENDIMENTO
-# ============================================================
-
 def validar_percentual_atendimento(percentual):
-    """
-    Valida o percentual de atendimento.
-
-    O PB03 determina valores entre 1% e 100%.
-    """
 
     try:
         percentual = float(percentual)
@@ -105,16 +85,6 @@ def validar_percentual_atendimento(percentual):
 
 
 def percentual_para_fator(percentual):
-    """
-    Converte percentual para fator decimal.
-
-    Exemplos:
-
-        100% -> 1.00
-        80%  -> 0.80
-        50%  -> 0.50
-        1%   -> 0.01
-    """
 
     percentual = validar_percentual_atendimento(
         percentual
@@ -127,21 +97,21 @@ def calcular_energia_fv(
     consumo_referencia,
     percentual_atendimento,
 ):
-    """
-    Calcula a energia fotovoltaica necessária.
 
-    Fórmula do PB01/PB03:
+    # Calcula a energia fotovoltaica necessária.
+    #
+    # Fórmula do PB01/PB03:
+    #
+    #     E_FV = C_m × f
+    #
+    # Onde:
+    #
+    #     C_m = consumo de referência
+    #     f   = percentual de atendimento em formato decimal
+    #
+    # Retorno:
+    #     energia FV necessária em kWh/mês.
 
-        E_FV = C_m × f
-
-    Onde:
-
-        C_m = consumo de referência
-        f   = percentual de atendimento em formato decimal
-
-    Retorno:
-        energia FV necessária em kWh/mês.
-    """
 
     try:
         consumo_referencia = float(
@@ -164,21 +134,12 @@ def calcular_energia_fv(
 
     return consumo_referencia * fator
 
-
-# ============================================================
-# PB04 - POTÊNCIA FOTOVOLTAICA
-# ============================================================
-
 def validar_parametros_potencia(
     energia_fv,
     hsp,
     dias_periodo,
     eficiencia,
 ):
-    """
-    Valida os parâmetros necessários para o cálculo
-    da potência fotovoltaica.
-    """
 
     try:
         energia_fv = float(energia_fv)
@@ -219,23 +180,22 @@ def validar_parametros_potencia(
         eficiencia,
     )
 
-
 def calcular_potencia_fv(
     energia_fv,
     hsp,
     dias_periodo=DIAS_MES_REFERENCIA,
     eficiencia=EFICIENCIA_SISTEMA,
 ):
-    """
-    Calcula a potência fotovoltaica necessária.
 
-    Fórmula do PB04:
+    # Calcula a potência fotovoltaica necessária.
+    #
+    # Fórmula do PB04:
+    #
+    #     P_FV = E_FV / (HSP × D × η)
+    #
+    # Resultado:
+    #     potência em kW.
 
-        P_FV = E_FV / (HSP × D × η)
-
-    Resultado:
-        potência em kW.
-    """
 
     (
         energia_fv,
@@ -265,11 +225,6 @@ def calcular_potencia_fv(
 
     return potencia
 
-
-# ============================================================
-# CONSTRUÇÃO DO RESULTADO INICIAL
-# ============================================================
-
 def criar_resultado_base(
     consumos,
     percentual_atendimento,
@@ -278,15 +233,6 @@ def criar_resultado_base(
     dias_periodo=DIAS_MES_REFERENCIA,
     eficiencia=EFICIENCIA_SISTEMA,
 ):
-    """
-    Cria um ResultadoDimensionamento contendo os dados
-    calculados até o PB04.
-
-    Essa função ainda não seleciona equipamentos.
-
-    Ela será expandida conforme os próximos PBs forem
-    implementados.
-    """
 
     consumo_referencia = (
         calcular_consumo_referencia(
@@ -327,32 +273,16 @@ def criar_resultado_base(
 
     return resultado
 
-
-# ============================================================
-# INTERAÇÃO COM O USUÁRIO
-# ============================================================
-
 def solicitar_percentual_atendimento():
-    """
-    Solicita ao usuário o percentual de atendimento.
-    """
+
+    # Solicita ao usuário o percentual de atendimento.
+
 
     return ler_percentual(
         "Percentual de atendimento do consumo (1-100%): "
     )
 
-
-# ============================================================
-# RESUMO DOS CÁLCULOS
-# ============================================================
-
 def gerar_resumo_dimensionamento_basico(resultado):
-    """
-    Gera um resumo textual dos resultados calculados
-    até o PB04.
-
-    Essa função será substituída/expandida pelo PB12.
-    """
 
     return (
         "\n"
@@ -378,18 +308,7 @@ def gerar_resumo_dimensionamento_basico(resultado):
         "============================================\n"
     )
 
-# ============================================================
-# PB02 - OBTENÇÃO DA HSP
-# ============================================================
-
-
 def obter_hsp_imovel(imovel):
-    """
-    Obtém a HSP da localização do imóvel.
-
-    Se a cidade/estado não for encontrada,
-    utiliza SP/SP como referência.
-    """
 
     cidade = (imovel.cidade or "").strip()
     estado = (imovel.estado or "").strip()
@@ -423,28 +342,11 @@ def obter_hsp_imovel(imovel):
         "nem obter a referência de São Paulo/SP no dataset."
     )
 
-# ============================================================
-# PB05 - SELEÇÃO E DIMENSIONAMENTO DOS PAINÉIS
-# ============================================================
-
 def executar_pb05(
     resultado,
     fabricante=None,
     modelo=None,
 ):
-    """
-    Executa o PB05 completo:
-
-        1. Seleciona o painel.
-        2. Calcula a quantidade necessária.
-        3. Calcula a potência instalada.
-        4. Atualiza o ResultadoDimensionamento.
-
-    Retorna:
-        ResultadoDimensionamento atualizado.
-
-    Retorna None caso nenhum painel esteja disponível.
-    """
 
     if resultado is None:
         raise ValueError(
@@ -479,26 +381,12 @@ def executar_pb05(
 
     return resultado
 
-# ============================================================
-# PB06 - SELEÇÃO DO INVERSOR
-# ============================================================
-
 def executar_pb06(
     resultado,
     fabricante=None,
     modelo=None,
 ):
-    """
-    Executa o PB06.
 
-    Seleciona um inversor considerando:
-        - potência FV instalada
-        - necessidade de bateria
-
-    Se resultado.possui_bateria for True,
-    somente inversores compatíveis com bateria
-    serão considerados.
-    """
 
     if resultado is None:
         raise ValueError(
@@ -536,24 +424,8 @@ def executar_pb06(
 
     return resultado
 
-# ============================================================
-# PB10 - VERIFICAÇÃO DE COMPATIBILIDADE
-# ============================================================
-
 def executar_pb10(resultado):
-    """
-    Executa o PB10.
 
-    Verifica a compatibilidade entre:
-        - painel selecionado no PB05;
-        - inversor selecionado no PB06;
-        - bateria selecionada no armazenamento, quando houver.
-
-    Utiliza a quantidade real de painéis definida no PB05.
-
-    Retorna:
-        ResultadoDimensionamento atualizado.
-    """
 
     if resultado is None:
         raise ValueError(
@@ -613,10 +485,6 @@ def executar_pb10(resultado):
 
     return resultado
 
-# ============================================================
-# PB08 + PB09 - INTEGRAÇÃO DO ARMAZENAMENTO
-# ============================================================
-
 def executar_armazenamento(
     resultado,
     autonomia_horas,
@@ -625,29 +493,29 @@ def executar_armazenamento(
     dod=0.80,
     eficiencia_bateria=0.90,
 ):
-    """
-    Executa o PB08 e o PB09 e atualiza o
-    ResultadoDimensionamento.
 
-    Parâmetros:
-        resultado:
-            ResultadoDimensionamento já criado.
+    # Executa o PB08 e o PB09 e atualiza o
+    # ResultadoDimensionamento.
+    #
+    # Parâmetros:
+    #     resultado:
+    #         ResultadoDimensionamento já criado.
+    #
+    #     autonomia_horas:
+    #         Autonomia desejada em horas.
+    #
+    #     fabricante/modelo:
+    #         Filtros opcionais para seleção da bateria.
+    #
+    #     dod:
+    #         Profundidade de descarga utilizada no dimensionamento.
+    #
+    #     eficiencia_bateria:
+    #         Eficiência considerada no dimensionamento.
+    #
+    # Retorna:
+    #     ResultadoDimensionamento atualizado.
 
-        autonomia_horas:
-            Autonomia desejada em horas.
-
-        fabricante/modelo:
-            Filtros opcionais para seleção da bateria.
-
-        dod:
-            Profundidade de descarga utilizada no dimensionamento.
-
-        eficiencia_bateria:
-            Eficiência considerada no dimensionamento.
-
-    Retorna:
-        ResultadoDimensionamento atualizado.
-    """
 
     if resultado is None:
         raise ValueError(
@@ -726,13 +594,6 @@ def calcular_geracao_estimada(
     dias_periodo=30,
     eficiencia=0.8,
 ):
-    """
-    Estima a geração de energia do sistema FV
-    no período informado.
-
-    Retorno:
-        energia estimada em kWh.
-    """
 
     try:
         potencia_instalada = float(potencia_instalada)
@@ -759,10 +620,6 @@ def calcular_geracao_estimada(
     )
 
 def calcular_custos(resultado):
-    """
-    Calcula os custos dos equipamentos
-    e o custo total do sistema.
-    """
 
     if resultado is None:
         raise ValueError(
@@ -857,9 +714,8 @@ def calcular_custos(resultado):
 
 
 def gerar_resumo_final(resultado):
-    """
-    Gera o relatório final do dimensionamento.
-    """
+
+    #Gera o relatório final do dimensionamento.
 
     if resultado is None:
         raise ValueError(

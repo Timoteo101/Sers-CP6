@@ -1,21 +1,7 @@
-# ============================================================
-# SERVIÇO DE BATERIAS
-# ============================================================
-
 from math import ceil
-
 from services.equipamentos import carregar_baterias
 
-
-# ============================================================
-# CONVERSÃO
-# ============================================================
-
 def converter_float(valor):
-    """
-    Converte valores numéricos para float.
-    Aceita ponto ou vírgula decimal.
-    """
 
     try:
         return float(
@@ -25,22 +11,17 @@ def converter_float(valor):
     except (TypeError, ValueError):
         return None
 
-
-# ============================================================
-# PB08 - CONSUMO MÉDIO DIÁRIO
-# ============================================================
-
 def calcular_consumo_diario(
     consumo_referencia,
     dias=30,
 ):
-    """
-    Calcula o consumo médio diário.
 
-    Fórmula:
+    # Calcula o consumo médio diário.
+    #
+    # Fórmula:
+    #
+    #     E_d = C_m / D
 
-        E_d = C_m / D
-    """
 
     consumo = converter_float(
         consumo_referencia
@@ -67,22 +48,17 @@ def calcular_consumo_diario(
 
     return consumo / dias
 
-
-# ============================================================
-# PB08 - ENERGIA DE AUTONOMIA
-# ============================================================
-
 def calcular_energia_autonomia(
     consumo_diario,
     autonomia_horas,
 ):
-    """
-    Calcula a energia necessária para a autonomia desejada.
 
-    Fórmula:
+    # Calcula a energia necessária para a autonomia desejada.
+    #
+    # Fórmula:
+    #
+    #     E_autonomia = E_d × (A / 24)
 
-        E_autonomia = E_d × (A / 24)
-    """
 
     consumo_diario = converter_float(
         consumo_diario
@@ -122,23 +98,17 @@ def calcular_energia_autonomia(
         * (autonomia_horas / 24)
     )
 
-
-# ============================================================
-# PB08 - CAPACIDADE DA BATERIA
-# ============================================================
-
 def calcular_capacidade_bateria(
     energia_autonomia,
     dod,
     eficiencia_bateria,
 ):
-    """
-    Calcula a capacidade nominal necessária da bateria.
 
-    Fórmula:
-
-        C_bat = E_autonomia / (DoD × η_bat)
-    """
+    # Calcula a capacidade nominal necessária da bateria.
+    #
+    # Fórmula:
+    #
+    #     C_bat = E_autonomia / (DoD × η_bat)
 
     energia_autonomia = converter_float(
         energia_autonomia
@@ -181,11 +151,6 @@ def calcular_capacidade_bateria(
         / (dod * eficiencia_bateria)
     )
 
-
-# ============================================================
-# PB08 - DIMENSIONAMENTO COMPLETO
-# ============================================================
-
 def dimensionar_armazenamento(
     consumo_referencia,
     autonomia_horas,
@@ -193,9 +158,6 @@ def dimensionar_armazenamento(
     eficiencia_bateria=0.90,
     dias=30,
 ):
-    """
-    Executa o PB08 completo.
-    """
 
     consumo_diario = calcular_consumo_diario(
         consumo_referencia=consumo_referencia,
@@ -222,16 +184,7 @@ def dimensionar_armazenamento(
         "capacidade_necessaria": capacidade_necessaria,
     }
 
-
-# ============================================================
-# PB09 - VALIDAÇÃO DE BATERIA
-# ============================================================
-
 def validar_bateria(bateria):
-    """
-    Valida os campos mínimos de uma bateria
-    conforme o dataset baterias.csv.
-    """
 
     if bateria is None:
         raise ValueError(
@@ -262,15 +215,7 @@ def validar_bateria(bateria):
 
     return True
 
-
-# ============================================================
-# PB09 - LISTAR BATERIAS
-# ============================================================
-
 def listar_baterias():
-    """
-    Retorna somente baterias válidas do dataset.
-    """
 
     registros = carregar_baterias()
 
@@ -293,25 +238,12 @@ def listar_baterias():
 
     return baterias_validas
 
-
-# ============================================================
-# PB09 - SELEÇÃO DA BATERIA
-# ============================================================
-
 def selecionar_bateria(
     capacidade_necessaria,
     fabricante=None,
     modelo=None,
 ):
-    """
-    Seleciona a bateria para atender à capacidade necessária.
 
-    A quantidade de baterias será calculada separadamente
-    por calcular_quantidade_baterias().
-
-    O dataset utiliza:
-        capacidade_nominal_kwh
-    """
 
     capacidade_necessaria = converter_float(
         capacidade_necessaria
@@ -366,31 +298,26 @@ def selecionar_bateria(
     if not candidatos:
         return None
 
-    # Escolhe a menor bateria disponível.
-    # A quantidade necessária será calculada depois.
+
     candidatos.sort(
         key=lambda item: item[0]
     )
 
     return candidatos[0][1]
 
-# ============================================================
-# PB09 - QUANTIDADE DE BATERIAS
-# ============================================================
-
 def calcular_quantidade_baterias(
     capacidade_necessaria,
     capacidade_bateria,
 ):
-    """
-    Calcula a quantidade de baterias necessárias.
 
-    Fórmula:
+    # Calcula a quantidade de baterias necessárias.
+    #
+    # Fórmula:
+    #
+    #     N_bat = teto(
+    #         C_necessária / C_bateria
+    #     )
 
-        N_bat = teto(
-            C_necessária / C_bateria
-        )
-    """
 
     capacidade_necessaria = converter_float(
         capacidade_necessaria
@@ -421,25 +348,12 @@ def calcular_quantidade_baterias(
         / capacidade_bateria
     )
 
-# ============================================================
-# PB09 - DIMENSIONAMENTO COMPLETO DA BATERIA
-# ============================================================
 
 def dimensionar_bateria(
     capacidade_necessaria,
     fabricante=None,
     modelo=None,
 ):
-    """
-    Executa o PB09 completo.
-
-    1. Seleciona uma bateria.
-    2. Calcula a quantidade necessária.
-    3. Calcula a capacidade instalada.
-
-    Retorna None se nenhuma bateria atender
-    aos critérios.
-    """
 
     bateria = selecionar_bateria(
         capacidade_necessaria=capacidade_necessaria,
@@ -477,19 +391,7 @@ def dimensionar_baterias(
     fabricante=None,
     modelo=None,
 ):
-    """
-    Executa o PB09 completo.
 
-    Seleciona uma bateria e calcula a quantidade necessária.
-
-    Retorna:
-        {
-            "bateria": bateria selecionada,
-            "quantidade": quantidade,
-            "capacidade_unitaria": ...,
-            "capacidade_instalada": ...
-        }
-    """
 
     bateria = selecionar_bateria(
         capacidade_necessaria=capacidade_necessaria,
@@ -520,25 +422,11 @@ def dimensionar_baterias(
         "capacidade_instalada": capacidade_instalada,
     }
 
-
-# ============================================================
-# PB09/PB11 - SELEÇÃO DE BATERIA COM PREÇO
-# ============================================================
-
 def selecionar_bateria_com_preco(
     capacidade_necessaria,
     fabricante=None,
     modelo=None,
 ):
-    """
-    Seleciona uma bateria que:
-
-    1. Possua capacidade válida;
-    2. Possua preço válido;
-    3. Permita calcular a quantidade necessária.
-
-    Não altera o dataset.
-    """
 
     capacidade_necessaria = converter_float(
         capacidade_necessaria
