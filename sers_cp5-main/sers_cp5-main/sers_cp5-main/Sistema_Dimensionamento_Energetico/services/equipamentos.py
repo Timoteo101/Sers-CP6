@@ -1,9 +1,4 @@
-# ============================================================
-# SERVIÇO DE EQUIPAMENTOS E DATASETS
-# ============================================================
-
 from math import ceil
-
 from utils.arquivos import carregar_csv
 from utils.constantes import (
     ARQUIVO_HSP,
@@ -12,15 +7,7 @@ from utils.constantes import (
     ARQUIVO_BATERIAS,
 )
 
-
-# ============================================================
-# HSP
-# ============================================================
-
 def carregar_hsp():
-    """
-    Carrega o dataset de HSP.
-    """
 
     return carregar_csv(
         ARQUIVO_HSP
@@ -31,18 +18,7 @@ def buscar_hsp_por_localizacao(
     cidade,
     estado
 ):
-    """
-    Procura a HSP no dataset utilizando cidade e UF.
 
-    Retorna:
-
-        {
-            "hsp": valor,
-            "origem": origem
-        }
-
-    Caso não encontre o local, retorna None.
-    """
 
     if not cidade or not estado:
         return None
@@ -104,59 +80,25 @@ def buscar_hsp_por_localizacao(
 
     return None
 
-
-# ============================================================
-# PAINÉIS
-# ============================================================
-
 def carregar_paineis():
-    """
-    Carrega o dataset de painéis.
-    """
 
     return carregar_csv(
         ARQUIVO_PAINEIS
     )
 
-
-# ============================================================
-# INVERSORES
-# ============================================================
-
 def carregar_inversores():
-    """
-    Carrega o dataset de inversores.
-    """
 
     return carregar_csv(
         ARQUIVO_INVERSORES
     )
 
-
-# ============================================================
-# BATERIAS
-# ============================================================
-
 def carregar_baterias():
-    """
-    Carrega o dataset de baterias.
-    """
 
     return carregar_csv(
         ARQUIVO_BATERIAS
     )
 
-# ============================================================
-# VALIDAÇÃO DOS DATASETS
-# ============================================================
-
 def verificar_dataset(registros, nome_dataset):
-    """
-    Verifica se um dataset possui registros.
-
-    Retorna True quando existem dados.
-    Retorna False quando o dataset está vazio.
-    """
 
     if not registros:
         print(
@@ -168,17 +110,6 @@ def verificar_dataset(registros, nome_dataset):
 
 
 def obter_hsp(cidade, estado):
-    """
-    Obtém a HSP de uma determinada localização.
-
-    Retorna:
-        {
-            "hsp": valor,
-            "origem": origem
-        }
-
-    ou None caso não exista informação.
-    """
 
     resultado = buscar_hsp_por_localizacao(
         cidade,
@@ -196,14 +127,7 @@ def obter_hsp(cidade, estado):
 
     return resultado
 
-# ============================================================
-# PB05 - DIMENSIONAMENTO DOS PAINÉIS
-# ============================================================
-
 def validar_painel(painel):
-    """
-    Valida os dados mínimos necessários de um painel.
-    """
 
     if painel is None:
         raise ValueError(
@@ -247,19 +171,19 @@ def calcular_quantidade_paineis(
     potencia_fv,
     potencia_painel_wp,
 ):
-    """
-    Calcula a quantidade necessária de painéis.
 
-    Fórmula:
+    # Calcula a quantidade necessária de painéis.
+    #
+    # Fórmula:
+    #
+    #     N = teto(P_FV / P_painel)
+    #
+    # P_FV:
+    #     potência FV necessária em kW.
+    #
+    # P_painel:
+    #     potência nominal do painel em Wp.
 
-        N = teto(P_FV / P_painel)
-
-    P_FV:
-        potência FV necessária em kW.
-
-    P_painel:
-        potência nominal do painel em Wp.
-    """
 
     try:
         potencia_fv = float(
@@ -301,11 +225,6 @@ def calcular_potencia_instalada(
     quantidade_paineis,
     potencia_painel_wp,
 ):
-    """
-    Calcula a potência instalada do conjunto de painéis.
-
-    Resultado em kWp.
-    """
 
     try:
         quantidade_paineis = int(
@@ -345,17 +264,7 @@ def dimensionar_paineis(
     potencia_fv,
     painel,
 ):
-    """
-    Executa o PB05 completo para um painel selecionado.
 
-    Retorna:
-
-        {
-            "painel": painel,
-            "quantidade_paineis": quantidade,
-            "potencia_instalada": potencia
-        }
-    """
 
     validar_painel(
         painel
@@ -385,31 +294,11 @@ def dimensionar_paineis(
         "potencia_instalada": potencia_instalada,
     }
 
-# ============================================================
-# PB05 - SELEÇÃO DE PAINEL
-# ============================================================
-
 def selecionar_painel(
     potencia_fv,
     fabricante=None,
     modelo=None,
 ):
-    """
-    Seleciona um painel disponível no dataset.
-
-    Quando fabricante e modelo são informados,
-    procura exatamente esse equipamento.
-
-    Quando não são informados, retorna o primeiro
-    painel válido disponível no dataset.
-
-    Retorna:
-        dicionário do painel selecionado
-
-    Retorna None quando o dataset estiver vazio
-        ou nenhum painel compatível com os filtros
-        for encontrado.
-    """
 
     paineis = carregar_paineis()
 
@@ -461,9 +350,6 @@ def selecionar_painel(
 
 
 def listar_paineis():
-    """
-    Retorna os painéis válidos cadastrados no dataset.
-    """
 
     registros = carregar_paineis()
 
@@ -483,14 +369,7 @@ def listar_paineis():
 
     return paineis_validos
 
-# ============================================================
-# PB06 - VALIDAÇÃO DE INVERSOR
-# ============================================================
-
 def validar_inversor(inversor):
-    """
-    Valida os dados mínimos necessários de um inversor.
-    """
 
     if inversor is None:
         raise ValueError(
@@ -586,10 +465,6 @@ def validar_inversor(inversor):
 
 
 def listar_inversores():
-    """
-    Retorna os inversores válidos cadastrados
-    no dataset.
-    """
 
     registros = carregar_inversores()
 
@@ -621,22 +496,18 @@ def selecionar_inversor(
     modelo=None,
     possui_bateria=False,
 ):
-    """
-    Seleciona um inversor para o sistema fotovoltaico.
 
-    Regras:
-        - A potência FV instalada deve ser <= potência FV máxima
-          suportada pelo inversor.
-        - Se houver bateria, somente inversores explicitamente
-          compatíveis com bateria podem ser selecionados.
-        - Fabricante e modelo podem ser utilizados como filtros.
-        - Entre os candidatos válidos, seleciona o menor inversor
-          pela potência nominal.
-    """
+    # Seleciona um inversor para o sistema fotovoltaico.
+    #
+    # Regras:
+    #     - A potência FV instalada deve ser <= potência FV máxima
+    #       suportada pelo inversor.
+    #     - Se houver bateria, somente inversores explicitamente
+    #       compatíveis com bateria podem ser selecionados.
+    #     - Fabricante e modelo podem ser utilizados como filtros.
+    #     - Entre os candidatos válidos, seleciona o menor inversor
+    #       pela potência nominal.
 
-    # ========================================================
-    # VALIDAÇÃO DA POTÊNCIA
-    # ========================================================
 
     try:
         potencia_instalada = float(
@@ -652,18 +523,11 @@ def selecionar_inversor(
             "A potência instalada deve ser maior que zero."
         )
 
-    # ========================================================
-    # OBTÉM OS INVERSORES
-    # ========================================================
 
     inversores = listar_inversores()
 
     if not inversores:
         return None
-
-    # ========================================================
-    # NORMALIZAÇÃO DA NECESSIDADE DE BATERIA
-    # ========================================================
 
     possui_bateria = bool(
         possui_bateria
@@ -671,15 +535,8 @@ def selecionar_inversor(
 
     candidatos = []
 
-    # ========================================================
-    # PERCORRE OS INVERSORES
-    # ========================================================
-
     for inversor in inversores:
 
-        # ----------------------------------------------------
-        # FABRICANTE
-        # ----------------------------------------------------
 
         fabricante_inversor = str(
             inversor.get(
@@ -697,10 +554,6 @@ def selecionar_inversor(
             ):
                 continue
 
-        # ----------------------------------------------------
-        # MODELO
-        # ----------------------------------------------------
-
         modelo_inversor = str(
             inversor.get(
                 "modelo",
@@ -716,10 +569,6 @@ def selecionar_inversor(
                 .lower()
             ):
                 continue
-
-        # ----------------------------------------------------
-        # POTÊNCIA FV MÁXIMA
-        # ----------------------------------------------------
 
         try:
 
@@ -752,10 +601,6 @@ def selecionar_inversor(
         if potencia_fv_max_kw < potencia_instalada:
             continue
 
-        # ----------------------------------------------------
-        # COMPATIBILIDADE COM BATERIA
-        # ----------------------------------------------------
-
         compatibilidade_bateria = str(
             inversor.get(
                 "compatibilidade_bateria",
@@ -777,10 +622,6 @@ def selecionar_inversor(
             in valores_compativeis
         )
 
-        # ----------------------------------------------------
-        # SE O SISTEMA POSSUI BATERIA
-        # ----------------------------------------------------
-
         if possui_bateria:
 
             # Só aceita inversor explicitamente
@@ -788,10 +629,6 @@ def selecionar_inversor(
 
             if not bateria_compativel:
                 continue
-
-        # ----------------------------------------------------
-        # CANDIDATO VÁLIDO
-        # ----------------------------------------------------
 
         candidatos.append(
             (
@@ -801,16 +638,8 @@ def selecionar_inversor(
             )
         )
 
-    # ========================================================
-    # NENHUM INVERSOR ENCONTRADO
-    # ========================================================
-
     if not candidatos:
         return None
-
-    # ========================================================
-    # ORDENAÇÃO
-    # ========================================================
 
     candidatos.sort(
         key=lambda item: (
@@ -818,9 +647,5 @@ def selecionar_inversor(
             item[1],
         )
     )
-
-    # ========================================================
-    # RETORNO
-    # ========================================================
 
     return candidatos[0][2]

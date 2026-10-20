@@ -1,12 +1,4 @@
-# ============================================================
-# PB12 - RELATÓRIO FINAL
-# ============================================================
-
-
 def _preco_valido(equipamento):
-    """
-    Verifica se o equipamento possui um preço numérico válido.
-    """
 
     if not equipamento:
         return False
@@ -29,9 +21,6 @@ def _preco_valido(equipamento):
 
 
 def _formatar_preco(preco):
-    """
-    Formata um preço para exibição.
-    """
 
     if preco is None:
         return "Não informado"
@@ -60,12 +49,6 @@ def _formatar_preco(preco):
 
 
 def gerar_resumo_final(resultado):
-    """
-    PB12 - Gera o relatório final do dimensionamento.
-
-    Recebe o objeto ResultadoDimensionamento já processado
-    pelos PBs anteriores e retorna um dicionário completo.
-    """
 
     if resultado is None:
         raise ValueError(
@@ -73,10 +56,6 @@ def gerar_resumo_final(resultado):
         )
 
     precos_nao_informados = []
-
-    # ========================================================
-    # PREÇO DO PAINEL
-    # ========================================================
 
     if (
         resultado.painel is not None
@@ -86,10 +65,6 @@ def gerar_resumo_final(resultado):
             "painel"
         )
 
-    # ========================================================
-    # PREÇO DO INVERSOR
-    # ========================================================
-
     if (
         resultado.inversor is not None
         and not _preco_valido(resultado.inversor)
@@ -97,10 +72,6 @@ def gerar_resumo_final(resultado):
         precos_nao_informados.append(
             "inversor"
         )
-
-    # ========================================================
-    # PREÇO DA BATERIA
-    # ========================================================
 
     if (
         resultado.possui_bateria
@@ -111,15 +82,8 @@ def gerar_resumo_final(resultado):
             "bateria"
         )
 
-    # ========================================================
-    # RELATÓRIO FINAL
-    # ========================================================
-
     return {
 
-        # ----------------------------------------------------
-        # DIMENSIONAMENTO
-        # ----------------------------------------------------
 
         "dimensionamento": {
 
@@ -157,23 +121,11 @@ def gerar_resumo_final(resultado):
                 resultado.geracao_estimada,
         },
 
-        # ----------------------------------------------------
-        # PAINEL
-        # ----------------------------------------------------
-
         "painel":
             resultado.painel,
 
-        # ----------------------------------------------------
-        # INVERSOR
-        # ----------------------------------------------------
-
         "inversor":
             resultado.inversor,
-
-        # ----------------------------------------------------
-        # BATERIA
-        # ----------------------------------------------------
 
         "bateria": {
 
@@ -196,16 +148,9 @@ def gerar_resumo_final(resultado):
                 resultado.capacidade_bateria_instalada,
         },
 
-        # ----------------------------------------------------
-        # COMPATIBILIDADE
-        # ----------------------------------------------------
-
         "compatibilidade":
             resultado.compatibilidade,
 
-        # ----------------------------------------------------
-        # ORÇAMENTO
-        # ----------------------------------------------------
 
         "orcamento": {
 
@@ -225,32 +170,12 @@ def gerar_resumo_final(resultado):
                 resultado.custo_total,
         },
 
-        # ----------------------------------------------------
-        # PREÇOS NÃO INFORMADOS
-        # ----------------------------------------------------
-
         "precos_nao_informados":
             precos_nao_informados,
     }
 
 
-# ============================================================
-# PB12 - EXIBIÇÃO DO RELATÓRIO PARA O USUÁRIO
-# ============================================================
-
 def exibir_resumo_final(relatorio):
-    """
-    Exibe o relatório final do PB12 na tela.
-
-    Mostra:
-        - dimensionamento;
-        - painel selecionado;
-        - inversor selecionado;
-        - bateria selecionada;
-        - compatibilidade;
-        - orçamento;
-        - registros reais utilizados dos datasets.
-    """
 
     if relatorio is None:
         raise ValueError(
@@ -297,10 +222,6 @@ def exibir_resumo_final(relatorio):
     print("=" * 70)
     print(" " * 18 + "PB12 - RELATÓRIO FINAL")
     print("=" * 70)
-
-    # ========================================================
-    # DIMENSIONAMENTO
-    # ========================================================
 
     print("\nDIMENSIONAMENTO")
     print("-" * 70)
@@ -373,10 +294,6 @@ def exibir_resumo_final(relatorio):
         ),
         "kWh/mês"
     )
-
-    # ========================================================
-    # PAINEL
-    # ========================================================
 
     print("\nPAINEL FOTOVOLTAICO")
     print("-" * 70)
@@ -455,10 +372,6 @@ def exibir_resumo_final(relatorio):
                 ""
             )
         )
-
-    # ========================================================
-    # INVERSOR
-    # ========================================================
 
     print("\nINVERSOR")
     print("-" * 70)
@@ -562,10 +475,6 @@ def exibir_resumo_final(relatorio):
                 ""
             )
         )
-
-    # ========================================================
-    # BATERIA
-    # ========================================================
 
     print("\nBATERIA")
     print("-" * 70)
@@ -671,10 +580,6 @@ def exibir_resumo_final(relatorio):
             )
         )
 
-    # ========================================================
-    # COMPATIBILIDADE
-    # ========================================================
-
     print("\nCOMPATIBILIDADE")
     print("-" * 70)
 
@@ -711,10 +616,6 @@ def exibir_resumo_final(relatorio):
                     "-",
                     problema
                 )
-
-    # ========================================================
-    # ORÇAMENTO
-    # ========================================================
 
     print("\nORÇAMENTO")
     print("-" * 70)
@@ -769,10 +670,6 @@ def exibir_resumo_final(relatorio):
         )
     )
 
-    # ========================================================
-    # PREÇOS NÃO INFORMADOS
-    # ========================================================
-
     print("\nPREÇOS NÃO INFORMADOS")
     print("-" * 70)
 
@@ -791,10 +688,6 @@ def exibir_resumo_final(relatorio):
                 equipamento
             )
 
-    # ========================================================
-    # DATASETS UTILIZADOS
-    # ========================================================
-
     print("\n")
     print("=" * 70)
     print(
@@ -808,10 +701,6 @@ def exibir_resumo_final(relatorio):
         "registros selecionados pelo sistema "
         "a partir dos datasets."
     )
-
-    # --------------------------------------------------------
-    # DATASET DE PAINÉIS
-    # --------------------------------------------------------
 
     print("\nPAINEL")
     print("-" * 70)
@@ -883,10 +772,6 @@ def exibir_resumo_final(relatorio):
             "Nenhum registro selecionado."
         )
 
-    # --------------------------------------------------------
-    # DATASET DE INVERSORES
-    # --------------------------------------------------------
-
     print("\nINVERSOR")
     print("-" * 70)
 
@@ -956,10 +841,6 @@ def exibir_resumo_final(relatorio):
             "Nenhum registro selecionado."
         )
 
-    # --------------------------------------------------------
-    # DATASET DE BATERIAS
-    # --------------------------------------------------------
-
     print("\nBATERIA")
     print("-" * 70)
 
@@ -1018,9 +899,6 @@ def exibir_resumo_final(relatorio):
             "O sistema não utilizou bateria."
         )
 
-    # ========================================================
-    # FINAL
-    # ========================================================
 
     print("\n")
     print("=" * 70)

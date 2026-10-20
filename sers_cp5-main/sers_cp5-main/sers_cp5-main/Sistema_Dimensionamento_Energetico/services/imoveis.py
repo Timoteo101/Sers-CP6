@@ -1,7 +1,3 @@
-# ============================================================
-# SERVIÇO DE IMÓVEIS
-# ============================================================
-
 from models.imovel import Imovel
 from utils.arquivos import carregar_json, salvar_json
 from utils.constantes import ARQUIVO_DADOS
@@ -14,9 +10,6 @@ from utils.validacoes import (
 
 
 def carregar_dados():
-    """
-    Carrega os dados do sistema.
-    """
 
     return carregar_json(
         ARQUIVO_DADOS,
@@ -27,9 +20,6 @@ def carregar_dados():
 
 
 def salvar_dados(dados):
-    """
-    Salva os dados do sistema.
-    """
 
     salvar_json(
         ARQUIVO_DADOS,
@@ -38,9 +28,6 @@ def salvar_dados(dados):
 
 
 def obter_usuario_dados(dados, email):
-    """
-    Localiza o usuário pelo e-mail.
-    """
 
     for usuario in dados.get(
         "usuarios",
@@ -58,9 +45,6 @@ def obter_usuario_dados(dados, email):
 
 
 def gerar_id_imovel(imoveis):
-    """
-    Gera um novo ID numérico para o imóvel.
-    """
 
     if not imoveis:
         return 1
@@ -87,9 +71,6 @@ def gerar_id_imovel(imoveis):
 
 
 def cadastrar_imovel(usuario):
-    """
-    Cadastra um novo imóvel para o usuário.
-    """
 
     dados = carregar_dados()
 
@@ -162,9 +143,6 @@ def cadastrar_imovel(usuario):
 
 
 def listar_imoveis(usuario):
-    """
-    Retorna os imóveis pertencentes ao usuário.
-    """
 
     dados = carregar_dados()
 
@@ -186,9 +164,6 @@ def listar_imoveis(usuario):
 
 
 def buscar_imovel(usuario, id_imovel):
-    """
-    Localiza um imóvel pelo ID.
-    """
 
     imoveis = listar_imoveis(
         usuario
@@ -206,9 +181,6 @@ def buscar_imovel(usuario, id_imovel):
 
 
 def adicionar_consumo(usuario, id_imovel):
-    """
-    Adiciona um consumo mensal ao imóvel.
-    """
 
     dados = carregar_dados()
 
@@ -293,9 +265,6 @@ def adicionar_consumo(usuario, id_imovel):
 
 
 def obter_consumos(usuario, id_imovel):
-    """
-    Retorna os consumos de um imóvel.
-    """
 
     imovel = buscar_imovel(
         usuario,
@@ -312,9 +281,7 @@ def calcular_consumo_medio(
     usuario,
     id_imovel
 ):
-    """
-    Calcula o consumo médio do imóvel.
-    """
+
 
     imovel = buscar_imovel(
         usuario,
@@ -331,9 +298,7 @@ def calcular_consumo_maximo(
     usuario,
     id_imovel
 ):
-    """
-    Calcula o consumo máximo do imóvel.
-    """
+
 
     imovel = buscar_imovel(
         usuario,
@@ -350,9 +315,7 @@ def obter_mes_maior_consumo(
     usuario,
     id_imovel
 ):
-    """
-    Retorna o mês de maior consumo.
-    """
+
 
     imovel = buscar_imovel(
         usuario,
@@ -369,9 +332,6 @@ def atualizar_imovel(
     usuario,
     id_imovel
 ):
-    """
-    Atualiza os dados básicos do imóvel.
-    """
 
     dados = carregar_dados()
 
@@ -427,9 +387,6 @@ def excluir_imovel(
     usuario,
     id_imovel
 ):
-    """
-    Exclui um imóvel do usuário.
-    """
 
     dados = carregar_dados()
 

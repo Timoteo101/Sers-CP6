@@ -1,19 +1,14 @@
-# ============================================================
-# SERVIÇO DE ORÇAMENTO
-# ============================================================
-
-
 def converter_float(valor):
-    """
-    Converte um valor para float.
 
-    Aceita:
-        790.5
-        "790.5"
-        "790,5"
-        "R$ 790,50"
-        "R$ 1.299,90"
-    """
+    # Converte um valor para float.
+    #
+    # Aceita:
+    #     790.5
+    #     "790.5"
+    #     "790,5"
+    #     "R$ 790,50"
+    #     "R$ 1.299,90"
+
 
     if valor is None:
         return 0.0
@@ -53,23 +48,18 @@ def converter_float(valor):
     except (TypeError, ValueError):
         return 0.0
 
-
-# ============================================================
-# PB11 - CUSTO DOS PAINÉIS
-# ============================================================
-
 def calcular_custo_paineis(
     painel,
     quantidade_paineis,
 ):
-    """
-    Calcula o custo total dos painéis.
-
-    Fórmula:
-
-        C_paineis =
-            preco_painel × quantidade
-    """
+    #
+    # Calcula o custo total dos painéis.
+    #
+    # Fórmula:
+    #
+    #     C_paineis =
+    #         preco_painel × quantidade
+    #
 
     if not painel:
         return 0.0
@@ -94,16 +84,9 @@ def calcular_custo_paineis(
     return preco * quantidade_paineis
 
 
-# ============================================================
-# PB11 - CUSTO DO INVERSOR
-# ============================================================
-
 def calcular_custo_inversor(
     inversor,
 ):
-    """
-    Retorna o preço do inversor selecionado.
-    """
 
     if not inversor:
         return 0.0
@@ -117,21 +100,10 @@ def calcular_custo_inversor(
 
     return preco
 
-
-# ============================================================
-# PB11 - CUSTO DAS BATERIAS
-# ============================================================
-
 def calcular_custo_baterias(
     baterias,
     quantidade_baterias,
 ):
-    """
-    Calcula o custo total das baterias.
-
-    Quando não houver bateria selecionada,
-    o custo será zero.
-    """
 
     if not baterias:
         return 0.0
@@ -155,31 +127,12 @@ def calcular_custo_baterias(
 
     return preco * quantidade_baterias
 
-
-# ============================================================
-# PB11 - CUSTO TOTAL
-# ============================================================
-
 def calcular_custo_total(
     custo_paineis,
     custo_inversor,
     custo_baterias,
     custos_adicionais=0.0,
 ):
-    """
-    Calcula o custo total estimado da solução.
-
-    Fórmula prevista no PB11:
-
-        C_equipamentos =
-            C_módulos
-            + C_inversor
-            + C_baterias
-            + C_demais
-
-    O custo total considera os custos adicionais
-    informados separadamente.
-    """
 
     custo_paineis = converter_float(
         custo_paineis
@@ -204,24 +157,11 @@ def calcular_custo_total(
         + custos_adicionais
     )
 
-
-# ============================================================
-# PB11 - ORÇAMENTO COMPLETO
-# ============================================================
-
 def calcular_orcamento(
     resultado,
     custos_adicionais=0.0,
 ):
-    """
-    Calcula o orçamento completo a partir
-    dos equipamentos selecionados.
 
-    Atualiza o ResultadoDimensionamento.
-
-    Retorna:
-        ResultadoDimensionamento atualizado.
-    """
 
     if resultado is None:
         raise ValueError(
