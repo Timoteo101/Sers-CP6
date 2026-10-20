@@ -1,15 +1,4 @@
-# ============================================================
-# MODELO DO RESULTADO DE DIMENSIONAMENTO
-# ============================================================
-
-
 class ResultadoDimensionamento:
-    """
-    Representa o resultado completo de um dimensionamento.
-
-    O modelo será preenchido progressivamente conforme
-    os PB01 até PB12 forem implementados.
-    """
 
     def __init__(
         self,
@@ -40,46 +29,24 @@ class ResultadoDimensionamento:
         compatibilidade=None,
     ):
 
-        # ====================================================
-        # PB01 / PB03
-        # ====================================================
+
 
         self.consumo_referencia = consumo_referencia
         self.percentual_atendimento = percentual_atendimento
         self.energia_fv = energia_fv
 
-        # ====================================================
-        # PB02
-        # ====================================================
-
         self.hsp = hsp
         self.origem_hsp = origem_hsp
-
-        # ====================================================
-        # PB04
-        # ====================================================
 
         self.dias_periodo = dias_periodo
         self.eficiencia_sistema = eficiencia_sistema
         self.potencia_fv = potencia_fv
 
-        # ====================================================
-        # PB05
-        # ====================================================
-
         self.potencia_instalada = potencia_instalada
         self.painel = painel
         self.quantidade_paineis = quantidade_paineis
 
-        # ====================================================
-        # PB06
-        # ====================================================
-
         self.inversor = inversor
-
-        # ====================================================
-        # PB08 / PB09
-        # ====================================================
 
         self.possui_bateria = possui_bateria
         self.autonomia_horas = autonomia_horas
@@ -94,15 +61,7 @@ class ResultadoDimensionamento:
             capacidade_bateria_instalada
         )
 
-        # ====================================================
-        # GERAÇÃO
-        # ====================================================
-
         self.geracao_estimada = geracao_estimada
-
-        # ====================================================
-        # PB11 - ORÇAMENTO
-        # ====================================================
 
         self.custo_paineis = custo_paineis
         self.custo_inversor = custo_inversor
@@ -110,20 +69,9 @@ class ResultadoDimensionamento:
         self.custos_adicionais = custos_adicionais
         self.custo_total = custo_total
 
-        # ====================================================
-        # PB10
-        # ====================================================
-
         self.compatibilidade = compatibilidade
 
-    # ========================================================
-    # PERSISTÊNCIA
-    # ========================================================
-
     def para_dict(self):
-        """
-        Converte o resultado para dicionário.
-        """
 
         return {
             "consumo_referencia": self.consumo_referencia,
@@ -184,9 +132,6 @@ class ResultadoDimensionamento:
 
     @classmethod
     def de_dict(cls, dados):
-        """
-        Cria um resultado a partir de um dicionário.
-        """
 
         return cls(
             consumo_referencia=dados.get(
