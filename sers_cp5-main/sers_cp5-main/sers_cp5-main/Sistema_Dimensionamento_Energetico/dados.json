@@ -1,0 +1,231 @@
+{
+    "usuarios": [
+        {
+            "nome": "bruno",
+            "email": "bru@123",
+            "senha": "bru123",
+            "imoveis": [
+                {
+                    "id_imovel": 1,
+                    "nome": "casa",
+                    "tipo": "1",
+                    "endereco": "rua dos cedros",
+                    "cidade": "itupeca",
+                    "estado": "sp",
+                    "latitude": null,
+                    "longitude": null,
+                    "consumos": [
+                        {
+                            "mes": 1,
+                            "ano": 9079,
+                            "consumo_kwh": 50.0
+                        },
+                        {
+                            "mes": 4,
+                            "ano": 2233,
+                            "consumo_kwh": 324.0
+                        }
+                    ],
+                    "dimensionamentos": []
+                }
+            ]
+        },
+        {
+            "nome": "fers",
+            "email": "fers@gmail",
+            "senha": "fers123",
+            "imoveis": [
+                {
+                    "id_imovel": 1,
+                    "nome": "casa na praia do fers",
+                    "tipo": "triplex do fers",
+                    "endereco": "copacabana 171",
+                    "cidade": "Rio de janeiro",
+                    "estado": "Rj",
+                    "latitude": null,
+                    "longitude": null,
+                    "consumos": [
+                        {
+                            "mes": 10,
+                            "ano": 2026,
+                            "consumo_kwh": 150.0
+                        },
+                        {
+                            "mes": 1,
+                            "ano": 2020,
+                            "consumo_kwh": 123.0
+                        }
+                    ],
+                    "dimensionamentos": []
+                }
+            ]
+        },
+        {
+            "nome": "titi",
+            "email": "titi@gmail",
+            "senha": "titi123",
+            "imoveis": []
+        },
+        {
+            "nome": "Timoteo Romano",
+            "email": "timoteo.romano@gmail.com",
+            "senha": "123456",
+            "imoveis": [
+                {
+                    "id_imovel": 1,
+                    "nome": "Juruna",
+                    "tipo": "Residencial",
+                    "endereco": "Juruna 686",
+                    "cidade": "São Paulo",
+                    "estado": "São Paulo",
+                    "latitude": null,
+                    "longitude": null,
+                    "consumos": [
+                        {
+                            "mes": 3,
+                            "ano": 2026,
+                            "consumo_kwh": 100.0
+                        },
+                        {
+                            "mes": 1,
+                            "ano": 2026,
+                            "consumo_kwh": 200.0
+                        }
+                    ],
+                    "dimensionamentos": []
+                }
+            ]
+        },
+        {
+            "nome": "Teste",
+            "email": "teste@gmail",
+            "senha": "123456",
+            "imoveis": [
+                {
+                    "id_imovel": 1,
+                    "nome": "teste",
+                    "tipo": "Residencial",
+                    "endereco": "686",
+                    "cidade": "São Paulo",
+                    "estado": "SP",
+                    "latitude": null,
+                    "longitude": null,
+                    "consumos": [
+                        {
+                            "mes": 1,
+                            "ano": 2026,
+                            "consumo_kwh": 100.0
+                        },
+                        {
+                            "mes": 2,
+                            "ano": 2026,
+                            "consumo_kwh": 300.0
+                        },
+                        {
+                            "mes": 7,
+                            "ano": 2026,
+                            "consumo_kwh": 400.0
+                        },
+                        {
+                            "mes": 10,
+                            "ano": 2024,
+                            "consumo_kwh": 200.0
+                        },
+                        {
+                            "mes": 12,
+                            "ano": 2026,
+                            "consumo_kwh": 100000000000.0
+                        },
+                        {
+                            "mes": 6,
+                            "ano": 2026,
+                            "consumo_kwh": 100.0
+                        }
+                    ],
+                    "dimensionamentos": []
+                },
+                {
+                    "id_imovel": 2,
+                    "nome": "teste2",
+                    "tipo": "Residencial",
+                    "endereco": "2",
+                    "cidade": "São Paulo",
+                    "estado": "SP",
+                    "latitude": null,
+                    "longitude": null,
+                    "consumos": [
+                        {
+                            "mes": 10,
+                            "ano": 2026,
+                            "consumo_kwh": 478.8,
+                            "origem": "estimativa_por_equipamentos"
+                        }
+                    ],
+                    "dimensionamentos": [],
+                    "equipamentos": [
+                        {
+                            "nome": "Geladeira",
+                            "quantidade": 1,
+                            "potencia_w": 150.0,
+                            "horas_dia": 24.0
+                        },
+                        {
+                            "nome": "Chuveiro Elétrico",
+                            "quantidade": 2,
+                            "potencia_w": 5500.0,
+                            "horas_dia": 1.0
+                        },
+                        {
+                            "nome": "TV",
+                            "quantidade": 1,
+                            "potencia_w": 100.0,
+                            "horas_dia": 5.0
+                        },
+                        {
+                            "nome": "Micro-ondas",
+                            "quantidade": 1,
+                            "potencia_w": 1200.0,
+                            "horas_dia": 0.3
+                        },
+                        {
+                            "nome": "Máquina de Lavar",
+                            "quantidade": 1,
+                            "potencia_w": 500.0,
+                            "horas_dia": 1.0
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "nome": "teste2",
+            "email": "teste2@gmail.com",
+            "senha": "123456",
+            "imoveis": [
+                {
+                    "id_imovel": 1,
+                    "nome": "teste",
+                    "tipo": "Residencial",
+                    "endereco": "juruna",
+                    "cidade": "São Paulo",
+                    "estado": "SP",
+                    "latitude": null,
+                    "longitude": null,
+                    "consumos": [
+                        {
+                            "mes": 8,
+                            "ano": 2026,
+                            "consumo_kwh": 100.0
+                        },
+                        {
+                            "mes": 5,
+                            "ano": 2025,
+                            "consumo_kwh": 200.0
+                        }
+                    ],
+                    "dimensionamentos": []
+                }
+            ]
+        }
+    ]
+}
